@@ -1,6 +1,7 @@
 import { Component, inject, input, OnInit, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-resgister',
@@ -13,6 +14,7 @@ export class ResgisterComponent implements OnInit {
   cancelRegister = output<boolean>()
   model:any={};
   private accountService = inject(AccountService);
+  toastr = inject(ToastrService)
   
   ngOnInit(): void {
     //console.log("userlist",this.userFromHome)
@@ -22,7 +24,7 @@ export class ResgisterComponent implements OnInit {
       next:response=>{
         console.log("Register successfully",response)
       },
-      error:error=>console.log(error),
+      error:error=>this.toastr.error(error.error),
       complete:()=>console.log("completed")
       
     });

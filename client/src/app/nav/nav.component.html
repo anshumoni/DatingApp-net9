@@ -1,34 +1,30 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-md navbar-primary bg-primary mb-4">
   <div class="container-fluid ">
-    <a class="navbar-brand" href="#">Dating App</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarCollapse"
-      aria-controls="navbarCollapse"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <a class="navbar-brand" routerLink="/">Dating App</a>
 
     <div class="collapse navbar-collapse" id="navbarCollapse">
-      @if(accountService.currentuser()){
        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        @if(accountService.currentuser()){
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Matches</a>
+          <a class="nav-link active" 
+          routerLink="/memberlist" 
+          routerLinkActive="active"
+          aria-current="page" href="#">Member Lists</a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="#">List</a></li>
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Messages</a>
+          <a class="nav-link" routerLink="/lists"
+           routerLinkActive="active">Lists</a></li>
+        <li class="nav-item">
+          <a class="nav-link"
+          routerLink="/message" 
+          routerLinkActive="active">Messages</a>
         </li>
-      </ul>
       }
+      </ul>
       @if(accountService.currentuser()){
        <div class="dropdown" dropdown>
         <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle>
-          Welcome User<span class="caret"></span>
+          Welcome {{accountService.currentuser()?.username}}<span class="caret"></span>
         </a>
         
         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
@@ -39,7 +35,8 @@
       </div>
       }
       @if(!accountService.currentuser()){
-        <form class="d-flex" #loginForm="ngForm" (ngSubmit)="login()">
+        <div class="position-absolute top-0 end-0 p-2">
+          <form class="d-flex" #loginForm="ngForm" (ngSubmit)="login()">
         <input
           class="form-control me-2"
           type="text"
@@ -56,6 +53,8 @@
         />
         <button class="btn btn-outline-success" type="submit">Login</button>
       </form>
+        </div>
+       
       }
       
     </div>
