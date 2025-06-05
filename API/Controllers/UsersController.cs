@@ -1,18 +1,15 @@
 using API.Data;
 using App.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 
 namespace API.Controllers;
+public class UsersController(DataContext context):BaseApiController {
 
-[ApiController]
-
-[Route("api/[Controller]")]
-public class UsersController(DataContext context):ControllerBase {
-
-
+  [AllowAnonymous]
   [HttpGet]
    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers(){
      var users = await context.Users.ToListAsync();
@@ -23,10 +20,13 @@ public class UsersController(DataContext context):ControllerBase {
 
   [HttpGet("{id:int}")]
  
-  public async Task<ActionResult<AppUser>> GetUsers(int id){
-     var user = await context.Users.FindAsync(id);
-     if(user==null) return NotFound();
+  [Authorize]
+  public async Task<ActionResult<AppUser>> GetUser(int id)
+  {
+    var user = await context.Users.FindAsync(id);
+    if (user == null) return NotFound();
 
-     return user;
-   }
+    return user;
+  }
 }
+
