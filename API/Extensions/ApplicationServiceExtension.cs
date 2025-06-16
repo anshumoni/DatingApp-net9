@@ -1,7 +1,9 @@
 using API.Data;
+using API.Entities;
 using API.Interfaces;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace API.Extension;
 
@@ -14,10 +16,12 @@ public static class ApplicationServiceExtension
         {
             opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
         });
-        services.AddOpenApi();
+        //services.AddOpenApi();
         services.AddCors();
         //add token service
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IUserRepository,UserRepository>();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         return services;
     }
 }
